@@ -1,0 +1,35 @@
+# QIG-Native 100M Phase 1 — Coupling
+# Requires: phi_avg >= 0.3 from Phase 0 checkpoint
+# Machine: a2-highgpu-2g (2x A100 40GB) on Vertex AI
+# Estimated cost: ~$7/hr x ~75hr = ~$525
+
+model_size: "100m"
+vocab_size: 32000
+dropout: 0.1
+
+data_dir: "/gcs/qig-training-data"
+start_phase: "phase1_coupling"
+max_seq_len: 384
+
+lr: 0.0005
+fisher_damping: 0.00005
+fisher_update_freq: 100
+
+batch_size: 48
+grad_clip: 1.0
+max_steps: 75000
+warmup_steps: 1000
+log_every: 50
+eval_every: 1000
+save_every: 5000
+phi_window: 100
+
+output_dir: "/gcs/qig-training-data/checkpoints/100m_phase1"
+tensorboard_dir: "/tmp/tb_100m_phase1"
+seed: 42
+
+vertex_machine_type: "a2-highgpu-2g"
+vertex_accelerator_type: "NVIDIA_TESLA_A100"
+vertex_accelerator_count: 2
+vertex_region: "us-central1"
+vertex_replica_count: 1
