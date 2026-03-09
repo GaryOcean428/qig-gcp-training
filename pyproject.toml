@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "qig-gcp-training"
+version = "0.1.0"
+description = "QIG-Native Training Pipeline on GCP"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.2.0",
+    "scipy>=1.11.0",
+    "tensorboard>=2.14.0",
+    "google-cloud-storage>=2.10.0",
+    "pyyaml>=6.0",
+    "numpy>=1.24.0",
+]
