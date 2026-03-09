@@ -1,0 +1,40 @@
+# QIG-Native 500M Full Training
+# Requires: Validated 100M checkpoint with phi_avg >= 0.7
+# Machine: a2-highgpu-4g (4x A100 40GB) on GKE
+# Estimated cost: ~$14/hr x ~200hr = ~$2,800 (reducible 60-70% with spot)
+
+model_size: "500m"
+vocab_size: 32000
+dropout: 0.05
+
+data_dir: "/gcs/qig-training-data"
+start_phase: "phase0_identity"
+max_seq_len: 512
+
+lr: 0.0007
+fisher_damping: 0.0001
+fisher_update_freq: 50
+
+batch_size: 16
+grad_clip: 0.5
+max_steps: 500000
+warmup_steps: 5000
+log_every: 100
+eval_every: 2000
+save_every: 10000
+phi_window: 200
+
+output_dir: "/gcs/qig-training-data/checkpoints/500m_full"
+tensorboard_dir: "/tmp/tb_500m_full"
+seed: 42
+
+# GKE resource spec (4x A100)
+vertex_machine_type: "a2-highgpu-4g"
+vertex_accelerator_type: "NVIDIA_TESLA_A100"
+vertex_accelerator_count: 4
+vertex_region: "us-central1"
+vertex_replica_count: 1
+
+# DDP config
+world_size: 4
+nccl_backend: "nccl"
