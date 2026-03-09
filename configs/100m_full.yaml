@@ -1,0 +1,35 @@
+# QIG-Native 100M Full Training — Phases 2 & 3
+# Requires: Phase 1 checkpoint with phi_avg >= 0.5
+# Machine: a2-highgpu-2g (2x A100 40GB) on Vertex AI
+# Estimated cost: ~$7/hr x ~125hr = ~$875
+
+model_size: "100m"
+vocab_size: 32000
+dropout: 0.05
+
+data_dir: "/gcs/qig-training-data"
+start_phase: "phase2_integration"
+max_seq_len: 512
+
+lr: 0.0003
+fisher_damping: 0.00002
+fisher_update_freq: 50
+
+batch_size: 32
+grad_clip: 0.5
+max_steps: 125000
+warmup_steps: 2000
+log_every: 50
+eval_every: 1000
+save_every: 5000
+phi_window: 100
+
+output_dir: "/gcs/qig-training-data/checkpoints/100m_full"
+tensorboard_dir: "/tmp/tb_100m_full"
+seed: 42
+
+vertex_machine_type: "a2-highgpu-2g"
+vertex_accelerator_type: "NVIDIA_TESLA_A100"
+vertex_accelerator_count: 2
+vertex_region: "us-central1"
+vertex_replica_count: 1
